@@ -1,4 +1,4 @@
-name: "helm-git"
+name: "helm-gitlab"
 version: "1.0.0"
 description: |-
   Let's you use private gitlab repositories easily

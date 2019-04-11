@@ -1,22 +1,19 @@
 #!/usr/bin/env sh
 
+#set -x # Enable for debugging
 set -e
 
-URI=$@ # eg: gitlab://username/project:master/kubernetes/helm-chart
-PROVIDER=$(echo $URI | cut -d: -f1) # eg: gitlab
-REPO=$(echo $URI | cut -d: -f2 | sed -e "s/\/\///") # eg: username/project
-BRANCH=$(echo $URI | cut -d: -f3 | cut -d/ -f1) # eg: master
-FILEPATH=$(echo $URI | cut -d: -f3 | sed -e "s/$BRANCH\///") # eg: kubernetes/helm-chart
-
-# echo $URI $REPO $BRANCH $FILEPATH >&2
+URI=$@ # eg: gitlab://token-xxx:xxxxx@gitlab.com/mukuru/ci-pipeline-templates:add_helm_repo/charts
+FILEPATH=$(echo $URI | rev | cut -d: -f1 | rev) # eg: helm-charts
+BRANCH=$(echo $URI | rev | cut -d: -f2 | rev) # eg: master
+REPO_PATH=https:$(echo $URI | cut -d: -f2-3)
 
 # make a temporary dir
 TMPDIR="$(mktemp -d)"
 cd $TMPDIR
 
-git init --quiet
-git remote add origin git@$PROVIDER.com:$REPO.git
-git pull --depth=1 --quiet origin $BRANCH
+git clone --single-branch --branch $BRANCH --depth=1 \
+  $REPO_PATH.git .
 
 if [ -f $FILEPATH ]; then # if a file named $FILEPATH exists
   cat $FILEPATH
