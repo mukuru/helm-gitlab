@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-set -x # Enable for debugging
+#set -x # Enable for debugging
 set -e
 
 URI=$@ # eg: gitlab://token-xxx:xxxxx@gitlab.com/mukuru/ci-pipeline-templates:add_helm_repo/charts
