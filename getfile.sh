@@ -12,7 +12,7 @@ REPO_PATH=https:$(echo $URI | cut -d: -f2-3)
 TMPDIR="$(mktemp -d)"
 cd $TMPDIR
 
-git clone --single-branch --branch $BRANCH --depth=1 \
+git clone --single-branch --branch $BRANCH --depth=1 --quiet \
   $REPO_PATH.git .
 
 if [ -f $FILEPATH ]; then # if a file named $FILEPATH exists
